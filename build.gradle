@@ -1,0 +1,42 @@
+plugins {
+    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'java'
+}
+
+version = '1.0.0'
+group = 'com.swill'
+archivesBaseName = 'killaura-polar'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.20.4"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:0.15.11"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.1+1.20.4"
+}
+
+loom {
+    runConfigs.configureEach {
+        ideConfigGenerated = true
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
